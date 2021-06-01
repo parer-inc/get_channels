@@ -1,0 +1,4 @@
+mysqlclient
+Redis
+redis
+rq

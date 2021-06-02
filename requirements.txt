@@ -1,4 +1,2 @@
 mysqlclient
-Redis
-redis
 rq

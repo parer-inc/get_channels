@@ -3,30 +3,8 @@ import os
 import sys
 import time
 import MySQLdb
-from redis import Redis
 from rq import Worker, Queue, Connection
-
-def get_cursor():
-    """Returns database cursor"""
-    try:
-        mydb = MySQLdb.connect(
-            host="database",
-            password=os.environ['MYSQL_ROOT_PASS'],
-            database='youpar'
-        )
-    except MySQLdb.Error as error:
-        print(error)
-        sys.exit("Error: Failed connecting to database")
-    return mydb.cursor()
-
-def get_redis():
-    """Returns redis connection"""
-    try:
-        redis = Redis(host='redis', port=6379)
-    except Redis.DoesNotExist as error:
-        print(error)
-        sys.exit("Error: Faild connecting to redis")
-    return redis
+from methods.connection import get_redis, get_cursor
 
 
 def get_channels(type=None, col=None, value=None):
@@ -43,7 +21,7 @@ def get_channels(type=None, col=None, value=None):
         cursor.execute(q)
     except MySQLdb.Error as error:
         print(error)
-        sys.exit("Error:Failed getting new tasks from database")
+        sys.exit("Error:Failed getting new channels from database")
     data = cursor.fetchall()
     cursor.close()
     return data

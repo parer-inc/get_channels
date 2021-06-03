@@ -9,7 +9,7 @@ from methods.connection import get_redis, get_cursor
 
 def get_channels(type=None, col=None, value=None):
     """Returns channels info from databse (table channels)"""
-    cursor = get_cursor()
+    cursor, _ = get_cursor()
     q = '''SELECT * FROM channels '''
     if type is not None:
         value = value.replace(";", "")

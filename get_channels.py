@@ -1,4 +1,4 @@
-"""This service allows to get new tasks form database"""
+"""This service allows to get channels form database"""
 import os
 import sys
 import time

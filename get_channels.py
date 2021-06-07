@@ -21,7 +21,7 @@ def get_channels(type=None, col=None, value=None):
         cursor.execute(q)
     except MySQLdb.Error as error:
         print(error)
-        sys.exit("Error:Failed getting new channels from database")
+        # sys.exit("Error:Failed getting new channels from database")
     data = cursor.fetchall()
     cursor.close()
     return data

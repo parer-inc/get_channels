@@ -7,9 +7,12 @@ from rq import Worker, Queue, Connection
 from methods.connection import get_redis, get_cursor
 
 
-def get_channels(type=None, col=None, value=None):
+def get_channels(type, col, value):
     """Returns channels info from databse (table channels)"""
     cursor, _ = get_cursor()
+    if not cursor:
+        # log that failed getting cursor
+        return False
     q = '''SELECT * FROM channels '''
     if type is not None:
         value = value.replace(";", "")
@@ -17,10 +20,14 @@ def get_channels(type=None, col=None, value=None):
         if type == "WHERE":
             value
             q += f'''WHERE {col} = "{value}"'''
+        else:
+            return False
     try:
         cursor.execute(q)
     except MySQLdb.Error as error:
         print(error)
+        # LOG
+        return False
         # sys.exit("Error:Failed getting new channels from database")
     data = cursor.fetchall()
     cursor.close()

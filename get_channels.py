@@ -8,7 +8,7 @@ from methods.connection import get_redis, get_cursor
 
 r = get_redis()
 
-def get_channels(type, col=False, value=False):
+def get_channels(type="ALL", col="", value=""):
     """Returns channels info from databse (table channels)"""
     cursor, _ = get_cursor()
     if not cursor:
@@ -16,10 +16,12 @@ def get_channels(type, col=False, value=False):
         return False
     q = '''SELECT * FROM channels '''
     if type is not None:
-        value = value.replace(";", "")
-        value = value.replace("'", "''")
         if type == "WHERE" and col and value:
+            value = value.replace(";", "")
+            value = value.replace("'", "''")
             q += f'''WHERE {col} = "{value}"'''
+        elif type == "ALL":
+            pass
         else:
             return False
     try:
